@@ -35,7 +35,7 @@
   function renderAllergyBanner() {
     const el = document.getElementById("allergy-banner");
     if (patient.allergies && patient.allergies.length) {
-      el.innerHTML = `<div class="banner banner-warning"><span class="banner-icon">⚠</span><div><strong>Known allergies on file</strong>${patient.allergies
+      el.innerHTML = `<div class="banner banner-warning"><span class="banner-icon material-symbols-outlined icon-sm">warning</span><div><strong>Known allergies on file</strong>${patient.allergies
         .map((a) => `<span class="chip chip-allergy" style="margin:4px 6px 0 0;">${UI.escapeHtml(a)}</span>`)
         .join("")}</div></div>`;
     } else {
@@ -86,7 +86,7 @@
         <div style="margin-bottom:8px;">
           ${(r.symptoms || []).map((s) => `<span class="chip" style="margin:0 6px 6px 0;">${UI.escapeHtml(s)}</span>`).join("")}
         </div>
-        ${hasAllergyFlag ? `<div class="banner banner-warning" style="margin:0 0 10px;padding:8px 12px;"><span class="banner-icon">⚠</span><div>Allergy considered while prescribing: ${r.allergiesNoted.map(UI.escapeHtml).join(", ")}</div></div>` : ""}
+        ${hasAllergyFlag ? `<div class="banner banner-warning" style="margin:0 0 10px;padding:8px 12px;"><span class="banner-icon material-symbols-outlined icon-sm">warning</span><div>Allergy considered while prescribing: ${r.allergiesNoted.map(UI.escapeHtml).join(", ")}</div></div>` : ""}
         ${medicineList(r.medicines)}
         ${r.notes ? `<p class="text-sm text-variant" style="margin-top:10px;">${UI.escapeHtml(r.notes)}</p>` : ""}
       </div>
@@ -96,10 +96,10 @@
   function renderTimeline() {
     document.getElementById("full-timeline").innerHTML = records.length
       ? records.map(timelineEntry).join("")
-      : `<div class="empty-state"><div class="empty-icon">🗂️</div><h3>No visits recorded yet</h3><p>Once a doctor adds a case record, it will show up here.</p></div>`;
+      : `<div class="empty-state"><div class="empty-icon material-symbols-outlined icon-lg">folder_off</div><h3>No visits recorded yet</h3><p>Once a doctor adds a case record, it will show up here.</p></div>`;
     document.getElementById("recent-timeline").innerHTML = records.length
       ? records.slice(0, 3).map(timelineEntry).join("")
-      : `<div class="empty-state"><div class="empty-icon">🗂️</div><h3>No visits yet</h3></div>`;
+      : `<div class="empty-state"><div class="empty-icon material-symbols-outlined icon-lg">folder_off</div><h3>No visits yet</h3></div>`;
   }
 
   const statusLabel = { pending: "Pending confirmation", confirmed: "Confirmed", completed: "Completed", cancelled: "Cancelled" };
@@ -107,7 +107,7 @@
   function renderAppointments() {
     const el = document.getElementById("appointments-list");
     if (!appointments.length) {
-      el.innerHTML = `<div class="card empty-state"><div class="empty-icon">📅</div><h3>No appointments yet</h3><p>Book one to get started.</p></div>`;
+      el.innerHTML = `<div class="card empty-state"><div class="empty-icon material-symbols-outlined icon-lg">calendar_month</div><h3>No appointments yet</h3><p>Book one to get started.</p></div>`;
       return;
     }
     el.innerHTML = appointments
@@ -140,7 +140,7 @@
   function renderAudit() {
     const el = document.getElementById("audit-list");
     if (!auditLog.length) {
-      el.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><h3>No activity yet</h3></div>`;
+      el.innerHTML = `<div class="empty-state"><div class="empty-icon material-symbols-outlined icon-lg">search_off</div><h3>No activity yet</h3></div>`;
       return;
     }
     el.innerHTML = auditLog

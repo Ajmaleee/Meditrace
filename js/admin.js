@@ -96,7 +96,7 @@
         ${p.allergies && p.allergies.length ? `<div>${p.allergies.map((a) => `<span class="chip chip-allergy" style="margin:2px 4px 0 0;">${UI.escapeHtml(a)}</span>`).join("")}</div>` : `<span class="text-sm text-faint">No known allergies</span>`}
       </div>`
         )
-        .join("") || `<div class="card empty-state"><div class="empty-icon">🔎</div><h3>No patients match</h3></div>`;
+        .join("") || `<div class="card empty-state"><div class="empty-icon material-symbols-outlined icon-lg">person_search</div><h3>No patients match</h3></div>`;
     document.getElementById("patient-cards").querySelectorAll("[data-open-patient]").forEach((b) => b.addEventListener("click", () => showPatientDetail(b.dataset.openPatient)));
   }
   document.getElementById("patient-search").addEventListener("input", renderPatientCards);
@@ -112,7 +112,7 @@
       <div class="card" style="margin-top:16px;">
         <h3 style="margin-bottom:2px;">${UI.escapeHtml(patient.name)}</h3>
         <span class="text-sm text-faint">${UI.escapeHtml(patient.place)} · ${UI.calcAge(patient.dob)} yrs · ${UI.escapeHtml(patient.gender)} · Blood group ${UI.escapeHtml(patient.bloodGroup || "—")} · ${UI.escapeHtml(patient.phone || "—")}</span>
-        ${patient.allergies && patient.allergies.length ? `<div class="banner banner-warning" style="margin-top:10px;"><span class="banner-icon">⚠</span><div><strong>Known allergies</strong>${patient.allergies.map((a) => `<span class="chip chip-allergy" style="margin:4px 6px 0 0;">${UI.escapeHtml(a)}</span>`).join("")}</div></div>` : ""}
+        ${patient.allergies && patient.allergies.length ? `<div class="banner banner-warning" style="margin-top:10px;"><span class="banner-icon material-symbols-outlined icon-sm">warning</span><div><strong>Known allergies</strong>${patient.allergies.map((a) => `<span class="chip chip-allergy" style="margin:4px 6px 0 0;">${UI.escapeHtml(a)}</span>`).join("")}</div></div>` : ""}
         <h4 style="margin-top:16px;">Care timeline</h4>
         <div class="timeline">${patRecords.length ? patRecords.map(timelineEntry).join("") : `<p class="text-faint text-sm">No visits recorded yet.</p>`}</div>
         <h4 style="margin-top:16px;">Recent access to this record</h4>
@@ -168,7 +168,7 @@
         return e.actorName.toLowerCase().includes(q) || e.details.toLowerCase().includes(q) || patientName.includes(q);
       });
     }
-    document.getElementById("audit-list").innerHTML = list.length ? list.map(auditRow).join("") : `<div class="empty-state"><div class="empty-icon">🔍</div><h3>No matching activity</h3></div>`;
+    document.getElementById("audit-list").innerHTML = list.length ? list.map(auditRow).join("") : `<div class="empty-state"><div class="empty-icon material-symbols-outlined icon-lg">search_off</div><h3>No matching activity</h3></div>`;
   }
   document.getElementById("audit-search").addEventListener("input", renderAudit);
   document.getElementById("audit-filter").addEventListener("change", renderAudit);

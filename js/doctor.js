@@ -54,7 +54,7 @@
     const upcoming = myAppointments.filter((a) => a.date >= today && a.status !== "cancelled").slice(0, 5);
     document.getElementById("upcoming-list").innerHTML = upcoming.length
       ? upcoming.map(apptRow).join("")
-      : `<div class="empty-state"><div class="empty-icon">📅</div><h3>Nothing scheduled</h3></div>`;
+      : `<div class="empty-state"><div class="empty-icon material-symbols-outlined icon-lg">calendar_month</div><h3>Nothing scheduled</h3></div>`;
     wireApptActions(document.getElementById("upcoming-list"));
   }
 
@@ -100,7 +100,7 @@
     const q = (document.getElementById("appt-search").value || "").toLowerCase();
     const list = myAppointments.filter((a) => a.patientName.toLowerCase().includes(q));
     const el = document.getElementById("appointments-list");
-    el.innerHTML = list.length ? list.map(apptRow).join("") : `<div class="card empty-state"><div class="empty-icon">📅</div><h3>No matching appointments</h3></div>`;
+    el.innerHTML = list.length ? list.map(apptRow).join("") : `<div class="card empty-state"><div class="empty-icon material-symbols-outlined icon-lg">calendar_month</div><h3>No matching appointments</h3></div>`;
     wireApptActions(el);
   }
   document.getElementById("appt-search").addEventListener("input", renderAppointments);
@@ -119,7 +119,7 @@
           ${p.allergies && p.allergies.length ? `<div>${p.allergies.map((a) => `<span class="chip chip-allergy" style="margin:2px 4px 0 0;">${UI.escapeHtml(a)}</span>`).join("")}</div>` : `<span class="text-sm text-faint">No known allergies</span>`}
         </div>`
       )
-      .join("") || `<div class="card empty-state"><div class="empty-icon">🔎</div><h3>No patients match</h3></div>`;
+      .join("") || `<div class="card empty-state"><div class="empty-icon material-symbols-outlined icon-lg">person_search</div><h3>No patients match</h3></div>`;
     document.getElementById("patient-cards").querySelectorAll("[data-open-patient]").forEach((b) =>
       b.addEventListener("click", () => showPatientDetail(b.dataset.openPatient))
     );
@@ -159,9 +159,9 @@
             <h3 style="margin-bottom:2px;">${UI.escapeHtml(patient.name)}</h3>
             <span class="text-sm text-faint">${UI.escapeHtml(patient.place)} · ${UI.calcAge(patient.dob)} yrs · ${UI.escapeHtml(patient.gender)} · Blood group ${UI.escapeHtml(patient.bloodGroup || "—")} · ${UI.escapeHtml(patient.phone || "—")}</span>
           </div>
-          <button class="btn btn-filled btn-sm" data-add-record-for="${patient.id}">＋ Add case record</button>
+          <button class="btn btn-filled btn-sm" data-add-record-for="${patient.id}"><span class="material-symbols-outlined icon-sm">add</span> Add case record</button>
         </div>
-        ${patient.allergies && patient.allergies.length ? `<div class="banner banner-warning" style="margin-top:10px;"><span class="banner-icon">⚠</span><div><strong>Known allergies</strong>${patient.allergies.map((a) => `<span class="chip chip-allergy" style="margin:4px 6px 0 0;">${UI.escapeHtml(a)}</span>`).join("")}</div></div>` : ""}
+        ${patient.allergies && patient.allergies.length ? `<div class="banner banner-warning" style="margin-top:10px;"><span class="banner-icon material-symbols-outlined icon-sm">warning</span><div><strong>Known allergies</strong>${patient.allergies.map((a) => `<span class="chip chip-allergy" style="margin:4px 6px 0 0;">${UI.escapeHtml(a)}</span>`).join("")}</div></div>` : ""}
         <h4 style="margin-top:16px;">Care timeline (all hospitals)</h4>
         <div class="timeline">${records.length ? records.map(timelineEntry).join("") : `<p class="text-faint text-sm">No visits recorded yet.</p>`}</div>
       </div>`;
@@ -193,7 +193,7 @@
       const warnEl = row.querySelector(".med-allergy-warn");
       const hit = patient ? checkAllergyAgainst(nameVal, patient.allergies) : null;
       warnEl.innerHTML = hit
-        ? `<div class="banner banner-error" style="margin:8px 0 0;padding:8px 12px;"><span class="banner-icon">⚠</span><div>This patient has a recorded allergy to <strong>${UI.escapeHtml(hit)}</strong> — double-check before prescribing ${UI.escapeHtml(nameVal)}.</div></div>`
+        ? `<div class="banner banner-error" style="margin:8px 0 0;padding:8px 12px;"><span class="banner-icon material-symbols-outlined icon-sm">error</span><div>This patient has a recorded allergy to <strong>${UI.escapeHtml(hit)}</strong> — double-check before prescribing ${UI.escapeHtml(nameVal)}.</div></div>`
         : "";
     });
   }
@@ -204,9 +204,9 @@
     const banner = document.getElementById("r-allergy-banner");
     banner.innerHTML =
       patient && patient.allergies && patient.allergies.length
-        ? `<div class="banner banner-warning"><span class="banner-icon">⚠</span><div><strong>${UI.escapeHtml(patient.name)}'s known allergies</strong>${patient.allergies.map((a) => `<span class="chip chip-allergy" style="margin:4px 6px 0 0;">${UI.escapeHtml(a)}</span>`).join("")}</div></div>`
+        ? `<div class="banner banner-warning"><span class="banner-icon material-symbols-outlined icon-sm">warning</span><div><strong>${UI.escapeHtml(patient.name)}'s known allergies</strong>${patient.allergies.map((a) => `<span class="chip chip-allergy" style="margin:4px 6px 0 0;">${UI.escapeHtml(a)}</span>`).join("")}</div></div>`
         : patient
-        ? `<div class="banner banner-success"><span class="banner-icon">✓</span><div>No known allergies on file for ${UI.escapeHtml(patient.name)}.</div></div>`
+        ? `<div class="banner banner-success"><span class="banner-icon material-symbols-outlined icon-sm">check_circle</span><div>No known allergies on file for ${UI.escapeHtml(patient.name)}.</div></div>`
         : "";
     refreshMedicineAllergyWarnings();
   }

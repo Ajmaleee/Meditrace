@@ -16,7 +16,7 @@
    ========================================================================= */
 
 const DB = (() => {
-  const LOCAL_KEY = "carecontinuum_db_v1";
+  const LOCAL_KEY = "meditrace_db_v1";
   let backend = "local"; // 'local' | 'firestore'
   let fsApp, fsDb, fsFns; // populated only if firestore backend loads
   let readyResolve;
@@ -44,7 +44,7 @@ const DB = (() => {
     try {
       return JSON.parse(raw);
     } catch (e) {
-      console.error("CareContinuum: corrupt local DB, resetting.", e);
+      console.error("MediTrace: corrupt local DB, resetting.", e);
       return null;
     }
   }
@@ -54,7 +54,7 @@ const DB = (() => {
   function localEnsureSeeded() {
     let data = localReadAll();
     if (!data) {
-      data = clone(window.CARECONTINUUM_SEED);
+      data = clone(window.MEDITRACE_SEED);
       localWriteAll(data);
     }
     return data;
@@ -76,7 +76,7 @@ const DB = (() => {
     // Firestore project behaves the same as the local demo on first run.
     const usersSnap = await fsFns.getDocs(fsFns.collection(fsDb, "users"));
     if (usersSnap.empty) {
-      const seed = window.CARECONTINUUM_SEED;
+      const seed = window.MEDITRACE_SEED;
       for (const key of ["users", "patients", "appointments", "records", "auditLog"]) {
         const colName = key === "records" ? "medicalRecords" : key;
         for (const item of seed[key]) {
@@ -114,7 +114,7 @@ const DB = (() => {
         await firestoreInit();
         backend = "firestore";
       } catch (err) {
-        console.warn("CareContinuum: Firestore init failed, falling back to local storage.", err);
+        console.warn("MediTrace: Firestore init failed, falling back to local storage.", err);
         backend = "local";
         localEnsureSeeded();
       }

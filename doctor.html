@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CareContinuum — Doctor</title>
+<title>MediTrace — Doctor</title>
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 <div class="app-shell">
 
   <header class="topbar">
-    <div class="brand"><span class="brand-mark">CC</span> CareContinuum<span class="brand-sub" id="backend-indicator"></span></div>
-    <span class="role-chip">🩺 <span class="chip-label-full">Doctor</span></span>
+    <div class="brand"><span class="brand-mark">MT</span> MediTrace<span class="brand-sub" id="backend-indicator"></span></div>
+    <span class="role-chip"><span class="material-symbols-outlined icon-sm">stethoscope</span> <span class="chip-label-full">Doctor</span></span>
     <div class="user-menu">
       <div class="user-avatar" id="user-avatar"></div>
       <div style="line-height:1.2;">
@@ -23,10 +23,10 @@
 
   <div class="main-layout">
     <nav class="side-nav">
-      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span> Overview</button>
-      <button class="nav-item" data-section="appointments"><span class="icon">📅</span> Appointments</button>
-      <button class="nav-item" data-section="lookup"><span class="icon">🔎</span> Patient lookup</button>
-      <button class="nav-item" data-section="newrecord"><span class="icon">📝</span> Add case record</button>
+      <button class="nav-item active" data-section="overview"><span class="icon material-symbols-outlined">home</span> Overview</button>
+      <button class="nav-item" data-section="appointments"><span class="icon material-symbols-outlined">calendar_month</span> Appointments</button>
+      <button class="nav-item" data-section="lookup"><span class="icon material-symbols-outlined">person_search</span> Patient lookup</button>
+      <button class="nav-item" data-section="newrecord"><span class="icon material-symbols-outlined">edit_note</span> Add case record</button>
     </nav>
 
     <main class="content">
@@ -38,7 +38,7 @@
         </div>
         <div class="grid grid-4" id="stat-cards"></div>
         <div class="card" style="margin-top:16px;">
-          <div class="card-title-row"><h3>Today &amp; upcoming</h3><button class="btn-text btn-sm" data-goto="appointments">View all →</button></div>
+          <div class="card-title-row"><h3>Today &amp; upcoming</h3><button class="btn-text btn-sm" data-goto="appointments">View all <span class="material-symbols-outlined icon-sm">arrow_forward</span></button></div>
           <div id="upcoming-list"></div>
         </div>
       </section>
@@ -49,7 +49,7 @@
           <div><span class="eyebrow">Appointments</span><h1>Your appointment queue</h1><p class="subtitle">Confirm, complete, or cancel requests.</p></div>
         </div>
         <div class="toolbar">
-          <div class="search-box"><span class="icon">🔍</span><input type="text" id="appt-search" placeholder="Search by patient name…" /></div>
+          <div class="search-box"><span class="icon material-symbols-outlined icon-sm">search</span><input type="text" id="appt-search" placeholder="Search by patient name…" /></div>
         </div>
         <div id="appointments-list"></div>
       </section>
@@ -60,7 +60,7 @@
           <div><span class="eyebrow">Patient lookup</span><h1>Look up a patient's history</h1><p class="subtitle">See allergies and past visits from any hospital before you prescribe.</p></div>
         </div>
         <div class="toolbar">
-          <div class="search-box"><span class="icon">🔍</span><input type="text" id="patient-search" placeholder="Search patients by name or place…" /></div>
+          <div class="search-box"><span class="icon material-symbols-outlined icon-sm">search</span><input type="text" id="patient-search" placeholder="Search patients by name or place…" /></div>
         </div>
         <div class="grid grid-2" id="patient-cards"></div>
         <div id="patient-detail"></div>
@@ -96,7 +96,7 @@
             <div class="field">
               <label>Medicines prescribed</label>
               <div id="medicine-rows"></div>
-              <button type="button" class="btn btn-outlined btn-sm" id="add-medicine">＋ Add medicine</button>
+              <button type="button" class="btn btn-outlined btn-sm" id="add-medicine"><span class="material-symbols-outlined icon-sm">add</span> Add medicine</button>
             </div>
 
             <div class="field">
@@ -114,17 +114,17 @@
 
   <nav class="bottom-nav">
     <div class="bottom-nav-row">
-      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span>Home</button>
-      <button class="nav-item" data-section="appointments"><span class="icon">📅</span>Queue</button>
-      <button class="nav-item" data-section="lookup"><span class="icon">🔎</span>Lookup</button>
-      <button class="nav-item" data-section="newrecord"><span class="icon">📝</span>Record</button>
+      <button class="nav-item active" data-section="overview"><span class="icon material-symbols-outlined">home</span>Home</button>
+      <button class="nav-item" data-section="appointments"><span class="icon material-symbols-outlined">calendar_month</span>Queue</button>
+      <button class="nav-item" data-section="lookup"><span class="icon material-symbols-outlined">person_search</span>Lookup</button>
+      <button class="nav-item" data-section="newrecord"><span class="icon material-symbols-outlined">edit_note</span>Record</button>
     </div>
   </nav>
 </div>
 
 <template id="medicine-row-template">
   <div class="repeatable-block medicine-row">
-    <button type="button" class="remove-btn" data-remove>✕</button>
+    <button type="button" class="remove-btn" data-remove><span class="material-symbols-outlined icon-xs">delete</span></button>
     <div class="form-row">
       <div class="field"><label>Medicine name</label><input type="text" class="med-name-input" required /></div>
       <div class="field"><label>Dosage</label><input type="text" class="med-dosage-input" placeholder="e.g. 500 mg" required /></div>

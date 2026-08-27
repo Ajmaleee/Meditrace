@@ -68,7 +68,8 @@ const UI = (() => {
   }
 
   function actionIcon(action) {
-    return { view: "👁", edit: "✎", create: "＋", login: "→" }[action] || "•";
+    const name = { view: "visibility", edit: "edit", create: "add_circle", login: "login" }[action] || "info";
+    return `<span class="material-symbols-outlined icon-sm">${name}</span>`;
   }
 
   return { escapeHtml, formatDate, formatTime, formatDateTime, timeAgo, calcAge, toast, actionIcon };

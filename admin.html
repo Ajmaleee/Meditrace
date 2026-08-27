@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CareContinuum — Admin</title>
+<title>MediTrace — Admin</title>
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 <div class="app-shell">
 
   <header class="topbar">
-    <div class="brand"><span class="brand-mark">CC</span> CareContinuum<span class="brand-sub" id="backend-indicator"></span></div>
-    <span class="role-chip">🛡️ <span class="chip-label-full">Admin</span></span>
+    <div class="brand"><span class="brand-mark">MT</span> MediTrace<span class="brand-sub" id="backend-indicator"></span></div>
+    <span class="role-chip"><span class="material-symbols-outlined icon-sm">shield_person</span> <span class="chip-label-full">Admin</span></span>
     <div class="user-menu">
       <div class="user-avatar" id="user-avatar"></div>
       <div style="line-height:1.2;">
@@ -23,11 +23,11 @@
 
   <div class="main-layout">
     <nav class="side-nav">
-      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span> Overview</button>
-      <button class="nav-item" data-section="patients"><span class="icon">🧑‍🤝‍🧑</span> All patients</button>
-      <button class="nav-item" data-section="doctors"><span class="icon">🩺</span> Doctors &amp; hospitals</button>
-      <button class="nav-item" data-section="appointments"><span class="icon">📅</span> All appointments</button>
-      <button class="nav-item" data-section="audit"><span class="icon">🔍</span> Full audit log</button>
+      <button class="nav-item active" data-section="overview"><span class="icon material-symbols-outlined">home</span> Overview</button>
+      <button class="nav-item" data-section="patients"><span class="icon material-symbols-outlined">group</span> All patients</button>
+      <button class="nav-item" data-section="doctors"><span class="icon material-symbols-outlined">stethoscope</span> Doctors &amp; hospitals</button>
+      <button class="nav-item" data-section="appointments"><span class="icon material-symbols-outlined">calendar_month</span> All appointments</button>
+      <button class="nav-item" data-section="audit"><span class="icon material-symbols-outlined">fact_check</span> Full audit log</button>
     </nav>
 
     <main class="content">
@@ -39,7 +39,7 @@
         </div>
         <div class="grid grid-4" id="stat-cards"></div>
         <div class="card" style="margin-top:16px;">
-          <div class="card-title-row"><h3>Latest activity</h3><button class="btn-text btn-sm" data-goto="audit">View full log →</button></div>
+          <div class="card-title-row"><h3>Latest activity</h3><button class="btn-text btn-sm" data-goto="audit">View full log <span class="material-symbols-outlined icon-sm">arrow_forward</span></button></div>
           <div id="latest-activity"></div>
         </div>
       </section>
@@ -50,7 +50,7 @@
           <div><span class="eyebrow">Patients</span><h1>All registered patients</h1><p class="subtitle">Opening a record is logged, same as it would be for a doctor.</p></div>
         </div>
         <div class="toolbar">
-          <div class="search-box"><span class="icon">🔍</span><input type="text" id="patient-search" placeholder="Search by name or place…" /></div>
+          <div class="search-box"><span class="icon material-symbols-outlined icon-sm">search</span><input type="text" id="patient-search" placeholder="Search by name or place…" /></div>
         </div>
         <div class="grid grid-2" id="patient-cards"></div>
         <div id="patient-detail"></div>
@@ -78,7 +78,7 @@
           <div><span class="eyebrow">Transparency</span><h1>Full access &amp; edit log</h1><p class="subtitle">Every view, create, and edit across the whole system, in one place.</p></div>
         </div>
         <div class="toolbar">
-          <div class="search-box"><span class="icon">🔍</span><input type="text" id="audit-search" placeholder="Search by patient, doctor, or detail…" /></div>
+          <div class="search-box"><span class="icon material-symbols-outlined icon-sm">search</span><input type="text" id="audit-search" placeholder="Search by patient, doctor, or detail…" /></div>
           <select id="audit-filter" style="max-width:180px;">
             <option value="">All actions</option>
             <option value="view">Views</option>
@@ -95,11 +95,11 @@
 
   <nav class="bottom-nav">
     <div class="bottom-nav-row">
-      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span>Home</button>
-      <button class="nav-item" data-section="patients"><span class="icon">🧑‍🤝‍🧑</span>Patients</button>
-      <button class="nav-item" data-section="doctors"><span class="icon">🩺</span>Doctors</button>
-      <button class="nav-item" data-section="appointments"><span class="icon">📅</span>Visits</button>
-      <button class="nav-item" data-section="audit"><span class="icon">🔍</span>Audit</button>
+      <button class="nav-item active" data-section="overview"><span class="icon material-symbols-outlined">home</span>Home</button>
+      <button class="nav-item" data-section="patients"><span class="icon material-symbols-outlined">group</span>Patients</button>
+      <button class="nav-item" data-section="doctors"><span class="icon material-symbols-outlined">stethoscope</span>Doctors</button>
+      <button class="nav-item" data-section="appointments"><span class="icon material-symbols-outlined">calendar_month</span>Visits</button>
+      <button class="nav-item" data-section="audit"><span class="icon material-symbols-outlined">fact_check</span>Audit</button>
     </div>
   </nav>
 </div>

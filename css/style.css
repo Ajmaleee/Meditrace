@@ -1,9 +1,10 @@
 /* =========================================================================
-   CareContinuum — Material Design token system
+   MediTrace — Material Design token system
    No gradients. No glassmorphism. No neon. Elevation via layered shadow only.
    ========================================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&family=Roboto+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&display=block');
 
 :root {
   /* ---- Color: Material 3 style tonal system, clinical teal + safety amber/red ---- */
@@ -89,6 +90,31 @@ p { margin: 0 0 8px 0; }
 a { color: var(--primary); }
 
 .mono { font-family: var(--font-mono); letter-spacing: 0; }
+
+/* =========================================================================
+   Icons — Material Symbols only. No emoji anywhere in this app.
+   ========================================================================= */
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: -15%;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.icon-xs { font-size: 15px; }
+.icon-sm { font-size: 17px; }
+.icon-lg { font-size: 30px; }
+.icon-xl { font-size: 40px; }
 
 button { font-family: var(--font-body); }
 

@@ -12,7 +12,7 @@
    nothing else in the app needs to change.
    ========================================================================= */
 
-window.CARECONTINUUM_SEED = {
+window.MEDITRACE_SEED = {
   users: [
     { id: "usr_admin", username: "admin", password: "Admin@123", role: "admin", name: "Admin User" },
 

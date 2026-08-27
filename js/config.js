@@ -1,6 +1,6 @@
 /* =========================================================================
    FIREBASE CONFIG — fill this in when the Firestore project is ready.
-   Until then, CareContinuum runs entirely on localStorage (see database.js)
+   Until then, MediTrace runs entirely on localStorage (see database.js)
    so the whole app works today. Nothing else needs to change: as soon as
    valid keys are pasted in below, database.js will detect them and switch
    to real Firestore reads/writes automatically.

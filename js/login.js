@@ -50,7 +50,7 @@
     try {
       const result = await Auth.login(username, password, selectedRole);
       if (!result.ok) {
-        bannerEl.innerHTML = `<div class="banner banner-error"><span class="banner-icon">⚠</span><div>${UI.escapeHtml(result.error)}</div></div>`;
+        bannerEl.innerHTML = `<div class="banner banner-error"><span class="banner-icon material-symbols-outlined icon-sm">error</span><div>${UI.escapeHtml(result.error)}</div></div>`;
         loginBtn.disabled = false;
         loginBtn.textContent = "Sign in";
         return;
@@ -58,7 +58,7 @@
       window.location.href = `${result.session.role}.html`;
     } catch (err) {
       console.error(err);
-      bannerEl.innerHTML = `<div class="banner banner-error"><span class="banner-icon">⚠</span><div>Something went wrong. Please try again.</div></div>`;
+      bannerEl.innerHTML = `<div class="banner banner-error"><span class="banner-icon material-symbols-outlined icon-sm">error</span><div>Something went wrong. Please try again.</div></div>`;
       loginBtn.disabled = false;
       loginBtn.textContent = "Sign in";
     }

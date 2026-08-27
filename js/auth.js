@@ -7,7 +7,7 @@
    ========================================================================= */
 
 const Auth = (() => {
-  const SESSION_KEY = "carecontinuum_session";
+  const SESSION_KEY = "meditrace_session";
 
   async function login(username, password, expectedRole) {
     const user = await DB.getUserByUsername(username.trim());
@@ -25,7 +25,7 @@ const Auth = (() => {
       actorName: user.name,
       actorRole: user.role,
       action: "login",
-      details: "Signed in to CareContinuum",
+      details: "Signed in to MediTrace",
     });
     return { ok: true, session };
   }

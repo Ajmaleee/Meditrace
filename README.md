@@ -1,9 +1,9 @@
-# CareContinuum
+# MediTrace
 
 A patient case-taking system built to solve one specific problem: a patient
 sees Doctor A, gets a prescription, then sees Doctor B for something
 unrelated — and Doctor B has no idea what Doctor A prescribed, or what the
-patient is allergic to. CareContinuum keeps one shared, cross-hospital
+patient is allergic to. MediTrace keeps one shared, cross-hospital
 record so that history travels with the patient.
 
 Plain HTML/CSS/JS, no build step, no framework. Open `index.html` and it
@@ -48,7 +48,7 @@ The login screen also shows these credentials inline.
    `DB.*` call (get patients, add a case record, read the audit log, etc.)
    starts reading and writing real Firestore documents instead of
    `localStorage` — no other file needs to change.
-4. On a brand-new empty project, CareContinuum seeds the same demo data
+4. On a brand-new empty project, MediTrace seeds the same demo data
    you see locally, so the two environments start out identical.
 
 Collections used: `users`, `patients`, `appointments`, `medicalRecords`,
@@ -100,3 +100,10 @@ record IDs, timestamps, and the audit log, so scannable data reads
 differently from prose. Fully responsive: a side nav on desktop collapses
 to a bottom nav below 800px, and the patient/doctor/admin layouts all
 reflow to a single column on phones.
+
+All icons are Google's Material Symbols Outlined font (loaded via
+`<span class="material-symbols-outlined">glyph_name</span>`, sized with the
+`.icon-xs`/`.icon-sm`/`.icon-lg`/`.icon-xl` utility classes in
+`css/style.css`) — there is no emoji anywhere in the app, so icon
+rendering is consistent across every OS and browser instead of depending
+on the platform's emoji font.
