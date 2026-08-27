@@ -10,12 +10,12 @@
    ========================================================================= */
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY_HERE",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyB8DmKfOsKNceS5v7GjNs6qkl5nHkJG498",
+  authDomain: "meditrace-ac26d.firebaseapp.com",
+  projectId: "meditrace-ac26d",
+  storageBucket: "meditrace-ac26d.firebasestorage.app",
+  messagingSenderId: "35095887936",
+  appId: "1:35095887936:web:a612bca8ddb8ec25415fa5"
 };
 
 // Detected automatically by database.js — do not edit.
