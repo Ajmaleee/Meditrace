@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CareContinuum — Admin</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">CC</span> CareContinuum<span class="brand-sub" id="backend-indicator"></span></div>
+    <span class="role-chip">🛡️ <span class="chip-label-full">Admin</span></span>
+    <div class="user-menu">
+      <div class="user-avatar" id="user-avatar"></div>
+      <div style="line-height:1.2;">
+        <div style="font-weight:600;font-size:0.86rem;" id="user-name"></div>
+        <button class="btn-text btn-sm" id="logout-btn" style="padding:2px 0;">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    <nav class="side-nav">
+      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span> Overview</button>
+      <button class="nav-item" data-section="patients"><span class="icon">🧑‍🤝‍🧑</span> All patients</button>
+      <button class="nav-item" data-section="doctors"><span class="icon">🩺</span> Doctors &amp; hospitals</button>
+      <button class="nav-item" data-section="appointments"><span class="icon">📅</span> All appointments</button>
+      <button class="nav-item" data-section="audit"><span class="icon">🔍</span> Full audit log</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- OVERVIEW -->
+      <section id="section-overview" class="page-section">
+        <div class="page-header">
+          <div><span class="eyebrow">System overview</span><h1>Admin console</h1><p class="subtitle">Full visibility into every patient, doctor, and access event.</p></div>
+        </div>
+        <div class="grid grid-4" id="stat-cards"></div>
+        <div class="card" style="margin-top:16px;">
+          <div class="card-title-row"><h3>Latest activity</h3><button class="btn-text btn-sm" data-goto="audit">View full log →</button></div>
+          <div id="latest-activity"></div>
+        </div>
+      </section>
+
+      <!-- PATIENTS -->
+      <section id="section-patients" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Patients</span><h1>All registered patients</h1><p class="subtitle">Opening a record is logged, same as it would be for a doctor.</p></div>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><span class="icon">🔍</span><input type="text" id="patient-search" placeholder="Search by name or place…" /></div>
+        </div>
+        <div class="grid grid-2" id="patient-cards"></div>
+        <div id="patient-detail"></div>
+      </section>
+
+      <!-- DOCTORS -->
+      <section id="section-doctors" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Care providers</span><h1>Doctors &amp; hospitals</h1><p class="subtitle">Every account that can add or edit a medical record.</p></div>
+        </div>
+        <div class="card"><div id="doctors-table"></div></div>
+      </section>
+
+      <!-- APPOINTMENTS -->
+      <section id="section-appointments" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Appointments</span><h1>System-wide appointments</h1></div>
+        </div>
+        <div class="card"><div id="appointments-table"></div></div>
+      </section>
+
+      <!-- AUDIT LOG -->
+      <section id="section-audit" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Transparency</span><h1>Full access &amp; edit log</h1><p class="subtitle">Every view, create, and edit across the whole system, in one place.</p></div>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><span class="icon">🔍</span><input type="text" id="audit-search" placeholder="Search by patient, doctor, or detail…" /></div>
+          <select id="audit-filter" style="max-width:180px;">
+            <option value="">All actions</option>
+            <option value="view">Views</option>
+            <option value="create">Created</option>
+            <option value="edit">Edits</option>
+            <option value="login">Sign-ins</option>
+          </select>
+        </div>
+        <div class="card"><div id="audit-list"></div></div>
+      </section>
+
+    </main>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-row">
+      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span>Home</button>
+      <button class="nav-item" data-section="patients"><span class="icon">🧑‍🤝‍🧑</span>Patients</button>
+      <button class="nav-item" data-section="doctors"><span class="icon">🩺</span>Doctors</button>
+      <button class="nav-item" data-section="appointments"><span class="icon">📅</span>Visits</button>
+      <button class="nav-item" data-section="audit"><span class="icon">🔍</span>Audit</button>
+    </div>
+  </nav>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/seed-data.js"></script>
+<script src="js/database.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

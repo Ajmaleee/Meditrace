@@ -1,18 +1,61 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0F5C7A" />
-    <meta name="description" content="MediTrace — secure longitudinal patient clinical history and medication management." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
-    <title>MediTrace</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CareContinuum — Sign in</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="login-shell">
+  <div class="login-grid">
+
+    <div class="login-intro">
+      <div class="brand-mark-lg">CC</div>
+      <h1>CareContinuum</h1>
+      <p>One shared record of a patient's care — every hospital, every doctor, every medicine — so nothing important gets missed.</p>
+      <ul>
+        <li><span class="li-icon">🩺</span> Doctors see a patient's full history before they prescribe, including allergies.</li>
+        <li><span class="li-icon">🔍</span> Patients see exactly who has viewed or edited their record, and when.</li>
+        <li><span class="li-icon">💊</span> Every medicine is explained in plain terms, not just listed.</li>
+      </ul>
+    </div>
+
+    <div class="login-form-side">
+      <h2>Sign in</h2>
+      <p class="text-variant text-sm" style="margin-bottom:18px;">Choose your account type to continue.</p>
+
+      <div class="role-tabs" id="role-tabs">
+        <button type="button" class="active" data-role="patient">Patient</button>
+        <button type="button" data-role="doctor">Doctor</button>
+        <button type="button" data-role="admin">Admin</button>
+      </div>
+
+      <div id="login-banner"></div>
+
+      <form id="login-form">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" autocomplete="username" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn btn-filled w-full" id="login-btn">Sign in</button>
+      </form>
+
+      <div class="demo-creds" id="demo-creds"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/seed-data.js"></script>
+<script src="js/database.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/login.js"></script>
+</body>
 </html>

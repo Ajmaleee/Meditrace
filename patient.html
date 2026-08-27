@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CareContinuum — Patient</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">CC</span> CareContinuum<span class="brand-sub" id="backend-indicator"></span></div>
+    <span class="role-chip">🧑‍🦱 <span class="chip-label-full">Patient</span></span>
+    <div class="user-menu">
+      <div class="user-avatar" id="user-avatar"></div>
+      <div style="line-height:1.2;">
+        <div style="font-weight:600;font-size:0.86rem;" id="user-name"></div>
+        <button class="btn-text btn-sm" id="logout-btn" style="padding:2px 0;">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    <nav class="side-nav">
+      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span> Overview</button>
+      <button class="nav-item" data-section="timeline"><span class="icon">🕘</span> Care timeline</button>
+      <button class="nav-item" data-section="appointments"><span class="icon">📅</span> Appointments</button>
+      <button class="nav-item" data-section="access"><span class="icon">🔍</span> Who viewed my record</button>
+      <button class="nav-item" data-section="profile"><span class="icon">👤</span> My profile</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- OVERVIEW -->
+      <section id="section-overview" class="page-section">
+        <div class="page-header">
+          <div><span class="eyebrow">Overview</span><h1 id="greeting">Welcome</h1><p class="subtitle">A snapshot of your care, in one place.</p></div>
+        </div>
+        <div id="allergy-banner"></div>
+        <div class="grid grid-4" id="stat-cards"></div>
+        <div class="card" style="margin-top:16px;">
+          <div class="card-title-row"><h3>Most recent visits</h3><button class="btn-text btn-sm" data-goto="timeline">View full timeline →</button></div>
+          <div id="recent-timeline" class="timeline"></div>
+        </div>
+      </section>
+
+      <!-- TIMELINE -->
+      <section id="section-timeline" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Care timeline</span><h1>Your medical history</h1><p class="subtitle">Every visit, every hospital, every medicine — explained in plain language.</p></div>
+        </div>
+        <div id="full-timeline" class="timeline card"></div>
+      </section>
+
+      <!-- APPOINTMENTS -->
+      <section id="section-appointments" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Appointments</span><h1>Book &amp; track appointments</h1><p class="subtitle">Tell the doctor your symptoms up front.</p></div>
+          <button class="btn btn-filled" id="btn-open-booking">＋ New appointment</button>
+        </div>
+        <div id="appointments-list"></div>
+      </section>
+
+      <!-- ACCESS LOG -->
+      <section id="section-access" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Transparency</span><h1>Who viewed or edited my record</h1><p class="subtitle">Every doctor and admin action on your record is logged here — nothing happens silently.</p></div>
+        </div>
+        <div class="card"><div id="audit-list"></div></div>
+      </section>
+
+      <!-- PROFILE -->
+      <section id="section-profile" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Profile</span><h1>My details</h1><p class="subtitle">Keep this current — doctors rely on it, especially your allergies.</p></div>
+        </div>
+        <div class="card" style="max-width:560px;">
+          <form id="profile-form">
+            <div class="form-row">
+              <div class="field"><label>Full name</label><input type="text" id="p-name" disabled /></div>
+              <div class="field"><label>Date of birth</label><input type="text" id="p-dob" disabled /></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>Phone</label><input type="tel" id="p-phone" /></div>
+              <div class="field"><label>Place</label><input type="text" id="p-place" /></div>
+            </div>
+            <div class="field">
+              <label>Known allergies (comma separated)</label>
+              <input type="text" id="p-allergies" placeholder="e.g. Penicillin, Dust" />
+              <span class="hint">Doctors will see this before prescribing anything.</span>
+            </div>
+            <button type="submit" class="btn btn-filled">Save changes</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-row">
+      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span>Home</button>
+      <button class="nav-item" data-section="timeline"><span class="icon">🕘</span>History</button>
+      <button class="nav-item" data-section="appointments"><span class="icon">📅</span>Visits</button>
+      <button class="nav-item" data-section="access"><span class="icon">🔍</span>Access</button>
+      <button class="nav-item" data-section="profile"><span class="icon">👤</span>Profile</button>
+    </div>
+  </nav>
+
+  <button class="fab" id="fab-book" title="New appointment">＋</button>
+</div>
+
+<!-- Booking modal -->
+<div class="modal-backdrop" id="booking-modal" style="display:none;">
+  <div class="modal">
+    <div class="modal-header"><h3>Book an appointment</h3><button class="modal-close" id="close-booking">✕</button></div>
+    <form id="booking-form">
+      <div class="field">
+        <label for="b-doctor">Doctor</label>
+        <select id="b-doctor" required></select>
+      </div>
+      <div class="form-row">
+        <div class="field"><label for="b-date">Date</label><input type="date" id="b-date" required /></div>
+        <div class="field"><label for="b-time">Time</label><input type="time" id="b-time" required /></div>
+      </div>
+      <div class="field">
+        <label for="b-symptoms">Symptoms / reason for visit</label>
+        <textarea id="b-symptoms" placeholder="Describe what you're experiencing…" required></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-text" id="cancel-booking">Cancel</button>
+        <button type="submit" class="btn btn-filled">Request appointment</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/seed-data.js"></script>
+<script src="js/database.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/patient.js"></script>
+</body>
+</html>

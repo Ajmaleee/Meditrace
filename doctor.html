@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CareContinuum — Doctor</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="app-shell">
+
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">CC</span> CareContinuum<span class="brand-sub" id="backend-indicator"></span></div>
+    <span class="role-chip">🩺 <span class="chip-label-full">Doctor</span></span>
+    <div class="user-menu">
+      <div class="user-avatar" id="user-avatar"></div>
+      <div style="line-height:1.2;">
+        <div style="font-weight:600;font-size:0.86rem;" id="user-name"></div>
+        <button class="btn-text btn-sm" id="logout-btn" style="padding:2px 0;">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    <nav class="side-nav">
+      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span> Overview</button>
+      <button class="nav-item" data-section="appointments"><span class="icon">📅</span> Appointments</button>
+      <button class="nav-item" data-section="lookup"><span class="icon">🔎</span> Patient lookup</button>
+      <button class="nav-item" data-section="newrecord"><span class="icon">📝</span> Add case record</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- OVERVIEW -->
+      <section id="section-overview" class="page-section">
+        <div class="page-header">
+          <div><span class="eyebrow">Overview</span><h1 id="greeting">Welcome</h1><p class="subtitle" id="doc-context"></p></div>
+        </div>
+        <div class="grid grid-4" id="stat-cards"></div>
+        <div class="card" style="margin-top:16px;">
+          <div class="card-title-row"><h3>Today &amp; upcoming</h3><button class="btn-text btn-sm" data-goto="appointments">View all →</button></div>
+          <div id="upcoming-list"></div>
+        </div>
+      </section>
+
+      <!-- APPOINTMENTS -->
+      <section id="section-appointments" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Appointments</span><h1>Your appointment queue</h1><p class="subtitle">Confirm, complete, or cancel requests.</p></div>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><span class="icon">🔍</span><input type="text" id="appt-search" placeholder="Search by patient name…" /></div>
+        </div>
+        <div id="appointments-list"></div>
+      </section>
+
+      <!-- PATIENT LOOKUP -->
+      <section id="section-lookup" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">Patient lookup</span><h1>Look up a patient's history</h1><p class="subtitle">See allergies and past visits from any hospital before you prescribe.</p></div>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><span class="icon">🔍</span><input type="text" id="patient-search" placeholder="Search patients by name or place…" /></div>
+        </div>
+        <div class="grid grid-2" id="patient-cards"></div>
+        <div id="patient-detail"></div>
+      </section>
+
+      <!-- ADD CASE RECORD -->
+      <section id="section-newrecord" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">New case record</span><h1>Record a visit</h1><p class="subtitle">This becomes part of the patient's permanent, shared medical history.</p></div>
+        </div>
+
+        <div class="card" style="max-width:720px;">
+          <div class="field">
+            <label for="r-patient">Patient</label>
+            <select id="r-patient" required></select>
+          </div>
+          <div id="r-allergy-banner"></div>
+
+          <form id="record-form">
+            <div class="form-row">
+              <div class="field"><label for="r-date">Date</label><input type="date" id="r-date" required /></div>
+              <div class="field"><label for="r-time">Time</label><input type="time" id="r-time" required /></div>
+            </div>
+            <div class="field">
+              <label for="r-symptoms">Symptoms (comma separated)</label>
+              <input type="text" id="r-symptoms" placeholder="e.g. Fever, Sore throat" required />
+            </div>
+            <div class="field">
+              <label for="r-diagnosis">Diagnosis</label>
+              <input type="text" id="r-diagnosis" required />
+            </div>
+
+            <div class="field">
+              <label>Medicines prescribed</label>
+              <div id="medicine-rows"></div>
+              <button type="button" class="btn btn-outlined btn-sm" id="add-medicine">＋ Add medicine</button>
+            </div>
+
+            <div class="field">
+              <label for="r-notes">Notes for the patient / next doctor</label>
+              <textarea id="r-notes" placeholder="Anything the next doctor should know…"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-filled" id="save-record-btn">Save case record</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-row">
+      <button class="nav-item active" data-section="overview"><span class="icon">🏠</span>Home</button>
+      <button class="nav-item" data-section="appointments"><span class="icon">📅</span>Queue</button>
+      <button class="nav-item" data-section="lookup"><span class="icon">🔎</span>Lookup</button>
+      <button class="nav-item" data-section="newrecord"><span class="icon">📝</span>Record</button>
+    </div>
+  </nav>
+</div>
+
+<template id="medicine-row-template">
+  <div class="repeatable-block medicine-row">
+    <button type="button" class="remove-btn" data-remove>✕</button>
+    <div class="form-row">
+      <div class="field"><label>Medicine name</label><input type="text" class="med-name-input" required /></div>
+      <div class="field"><label>Dosage</label><input type="text" class="med-dosage-input" placeholder="e.g. 500 mg" required /></div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Frequency</label><input type="text" class="med-freq-input" placeholder="e.g. Twice daily" required /></div>
+      <div class="field"><label>Duration</label><input type="text" class="med-duration-input" placeholder="e.g. 5 days" required /></div>
+    </div>
+    <div class="field"><label>Purpose (plain language, shown to patient)</label><input type="text" class="med-purpose-input" placeholder="e.g. Reduces fever and pain" required /></div>
+    <div class="med-allergy-warn"></div>
+  </div>
+</template>
+
+<script src="js/config.js"></script>
+<script src="js/seed-data.js"></script>
+<script src="js/database.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/doctor.js"></script>
+</body>
+</html>
