@@ -110,6 +110,24 @@ export function AppShell() {
 
   return (
     <Box sx={{ display: 'flex' }}>
+      <Box
+        component="a"
+        href="#main-content"
+        sx={{
+          position: 'absolute',
+          left: -9999,
+          top: 0,
+          zIndex: 2000,
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
+          px: 2,
+          py: 1,
+          borderRadius: 1,
+          '&:focus': { left: 16, top: 16 },
+        }}
+      >
+        Skip to main content
+      </Box>
       <AppBar
         position="fixed"
         sx={{ width: { md: `calc(100% - ${DRAWER_WIDTH}px)` }, ml: { md: `${DRAWER_WIDTH}px` } }}
@@ -132,6 +150,15 @@ export function AppShell() {
           </Box>
           <Box
             onClick={(e) => setMenuAnchor(e.currentTarget)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setMenuAnchor(e.currentTarget as unknown as HTMLElement);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={`Account menu for ${user.name}`}
             sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', py: 0.5, px: 1, borderRadius: 1.5, '&:hover': { bgcolor: 'action.hover' } }}
             aria-haspopup="true"
           >
@@ -178,6 +205,7 @@ export function AppShell() {
 
       <Box
         component="main"
+        id="main-content"
         sx={{
           flexGrow: 1,
           width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },

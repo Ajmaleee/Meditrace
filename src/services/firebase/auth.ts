@@ -60,12 +60,23 @@ export function subscribeToAuthChanges(callback: (user: AppUser | null) => void)
     callback(null);
     return () => {};
   }
-  return onAuthStateChanged(auth, async (firebaseUser) => {
+
+  // `auth` and `db` are narrowed to non-null above, but that narrowing does
+  // not carry into the nested callback passed to onAuthStateChanged below —
+  // TypeScript can't prove a closure won't run after the module-level
+  // binding could have changed, so it widens `db` back to `Firestore | null`
+  // inside the callback body. Binding the already-narrowed value to a new
+  // local const here fixes its type as `Firestore` at the point of
+  // declaration, so no assertion is needed to use it inside the closure.
+  const firestore = db;
+  const firebaseAuth = auth;
+
+  return onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
     if (!firebaseUser) {
       callback(null);
       return;
     }
-    const profileSnap = await getDoc(doc(db, 'users', firebaseUser.uid));
+    const profileSnap = await getDoc(doc(firestore, 'users', firebaseUser.uid));
     callback(profileSnap.exists() ? (profileSnap.data() as AppUser) : null);
   });
 }

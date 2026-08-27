@@ -1,5 +1,6 @@
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import QrCodeScannerOutlinedIcon from '@mui/icons-material/QrCodeScannerOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import LocalHospitalOutlinedIcon from '@mui/icons-material/LocalHospitalOutlined';
 import MedicationOutlinedIcon from '@mui/icons-material/MedicationOutlined';
@@ -18,6 +19,7 @@ export const NAV_ITEMS: Record<UserRole, NavItem[]> = {
   doctor: [
     { label: 'Dashboard', path: ROUTES.doctorDashboard, icon: DashboardOutlinedIcon },
     { label: 'Patients', path: ROUTES.patientSearch, icon: PeopleAltOutlinedIcon },
+    { label: 'Scan patient', path: ROUTES.scanPatient, icon: QrCodeScannerOutlinedIcon },
     { label: 'Access history', path: ROUTES.accessHistory, icon: HistoryOutlinedIcon },
   ],
   patient: [

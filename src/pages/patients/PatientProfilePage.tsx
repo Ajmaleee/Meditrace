@@ -4,9 +4,9 @@ import {
   Box,
   Breadcrumbs,
   Button,
-  CircularProgress,
   Link,
   Paper,
+  Skeleton,
   Stack,
   Tab,
   Tabs,
@@ -17,7 +17,11 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import MedicationOutlinedIcon from '@mui/icons-material/MedicationOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import { downloadPrescriptionPdf } from '@/utils/pdf';
 import { PatientHeader } from '@/components/patient/PatientHeader';
+import { PatientQrCode } from '@/components/patient/PatientQrCode';
+import { ClinicalSummaryPanel } from '@/components/patient/ClinicalSummaryPanel';
 import { AllergyList } from '@/components/patient/AllergyList';
 import { MedicationTimeline } from '@/components/patient/MedicationTimeline';
 import { VisitList } from '@/components/patient/VisitList';
@@ -83,8 +87,11 @@ export function PatientProfilePage() {
 
   if (loading) {
     return (
-      <Stack alignItems="center" sx={{ py: 8 }}>
-        <CircularProgress size={24} />
+      <Stack spacing={2.5}>
+        <Skeleton variant="text" width={160} height={20} />
+        <Skeleton variant="rounded" height={92} />
+        <Skeleton variant="rounded" height={44} width={280} sx={{ alignSelf: 'flex-end' }} />
+        <Skeleton variant="rounded" height={320} />
       </Stack>
     );
   }
@@ -116,7 +123,8 @@ export function PatientProfilePage() {
       <PatientHeader patient={patient} />
 
       {user?.role === 'doctor' && (
-        <Stack direction="row" justifyContent="flex-end">
+        <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
+          <PatientQrCode patientId={patient.patientId} patientName={patient.name} />
           <Button
             variant="contained"
             startIcon={<AddOutlinedIcon />}
@@ -143,6 +151,8 @@ export function PatientProfilePage() {
         <Box sx={{ p: { xs: 2, sm: 2.5 } }}>
           {tab === 'Overview' && (
             <Stack spacing={3}>
+              <ClinicalSummaryPanel patient={patient} visits={visits} medications={medications} allergies={allergies} />
+
               <Box>
                 <Typography variant="h5" sx={{ mb: 1.5 }}>
                   Known allergies
@@ -232,9 +242,18 @@ export function PatientProfilePage() {
               <Stack spacing={1.5}>
                 {prescriptions.map((rx) => (
                   <Paper key={rx.prescriptionId} variant="outlined" sx={{ p: 2 }}>
-                    <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
                       <Typography variant="subtitle2">{rx.doctorName}</Typography>
-                      <Typography variant="caption">{format(new Date(rx.createdAt), 'd MMM yyyy')}</Typography>
+                      <Stack direction="row" spacing={1.5} alignItems="center">
+                        <Typography variant="caption">{format(new Date(rx.createdAt), 'd MMM yyyy')}</Typography>
+                        <Button
+                          size="small"
+                          startIcon={<FileDownloadOutlinedIcon fontSize="small" />}
+                          onClick={() => downloadPrescriptionPdf(patient, rx)}
+                        >
+                          PDF
+                        </Button>
+                      </Stack>
                     </Stack>
                     <Stack spacing={0.75}>
                       {rx.items.map((item, idx) => (

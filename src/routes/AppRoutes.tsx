@@ -6,6 +6,7 @@ import { ROUTES } from '@/constants/routes';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { DoctorDashboard } from '@/pages/dashboard/DoctorDashboard';
 import { PatientSearchPage } from '@/pages/patients/PatientSearchPage';
+import { ScanPatientPage } from '@/pages/patients/ScanPatientPage';
 import { PatientProfilePage } from '@/pages/patients/PatientProfilePage';
 import { NewConsultationPage } from '@/pages/consultations/NewConsultationPage';
 import { AccessHistoryPage } from '@/pages/access/AccessHistoryPage';
@@ -31,6 +32,7 @@ export function AppRoutes() {
         <Route element={<AppShell />}>
           <Route path={ROUTES.doctorDashboard} element={<DoctorDashboard />} />
           <Route path={ROUTES.patientSearch} element={<PatientSearchPage />} />
+          <Route path={ROUTES.scanPatient} element={<ScanPatientPage />} />
           <Route path="/patients/:patientId" element={<PatientProfilePage />} />
           <Route path="/patients/:patientId/consultation/new" element={<NewConsultationPage />} />
           <Route path={ROUTES.accessHistory} element={<AccessHistoryPage />} />

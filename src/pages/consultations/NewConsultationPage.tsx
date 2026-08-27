@@ -15,6 +15,7 @@ import {
   Stepper,
   TextField,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -26,7 +27,9 @@ import { getAllergies, getMedications, getPatient, saveConsultation } from '@/se
 import { runSafetyCheck } from '@/services/safety';
 import { recordAccess } from '@/services/audit';
 import { organizations } from '@/services/mockData';
-import type { Allergy, Medication, Patient, PrescriptionItem, SafetyWarning } from '@/types';
+import { downloadPrescriptionPdf } from '@/utils/pdf';
+import { useNotifications } from '@/context/NotificationContext';
+import type { Allergy, Medication, Patient, Prescription, PrescriptionItem, SafetyWarning } from '@/types';
 
 const STEPS = ['Symptoms', 'Diagnosis', 'Prescription', 'Safety Check', 'Review'];
 
@@ -44,6 +47,8 @@ export function NewConsultationPage() {
   const { patientId = '' } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery('(max-width:600px)');
+  const { notifyError } = useNotifications();
 
   const [patient, setPatient] = useState<Patient | null>(null);
   const [allergies, setAllergies] = useState<Allergy[]>([]);
@@ -59,6 +64,7 @@ export function NewConsultationPage() {
   const [acknowledged, setAcknowledged] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [savedPrescription, setSavedPrescription] = useState<Prescription | null>(null);
 
   useEffect(() => {
     Promise.all([getPatient(patientId), getAllergies(patientId), getMedications(patientId)]).then(
@@ -109,27 +115,33 @@ export function NewConsultationPage() {
   const handleSave = async () => {
     if (!user?.doctorId || !user.organizationId) return;
     setSaving(true);
-    await saveConsultation({
-      patientId,
-      doctorId: user.doctorId,
-      doctorName: user.name,
-      organizationId: user.organizationId,
-      organizationName: organization?.name ?? '',
-      symptoms,
-      diagnosis,
-      notes,
-      prescriptionItems: items,
-      acknowledgedWarnings: acknowledged || warnings.length === 0,
-    });
-    await recordAccess({
-      patientId,
-      doctorId: user.doctorId,
-      doctorName: user.name,
-      organizationId: user.organizationId,
-      action: 'added_prescription',
-    });
-    setSaving(false);
-    setSaved(true);
+    try {
+      const { prescription } = await saveConsultation({
+        patientId,
+        doctorId: user.doctorId,
+        doctorName: user.name,
+        organizationId: user.organizationId,
+        organizationName: organization?.name ?? '',
+        symptoms,
+        diagnosis,
+        notes,
+        prescriptionItems: items,
+        acknowledgedWarnings: acknowledged || warnings.length === 0,
+      });
+      await recordAccess({
+        patientId,
+        doctorId: user.doctorId,
+        doctorName: user.name,
+        organizationId: user.organizationId,
+        action: 'added_prescription',
+      });
+      setSavedPrescription(prescription);
+      setSaved(true);
+    } catch (err) {
+      notifyError(err, 'Unable to save this consultation. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (saved) {
@@ -140,9 +152,16 @@ export function NewConsultationPage() {
           The visit, prescription, and updated medication history have been recorded for {patient.name}. An access
           log entry has been created.
         </Typography>
-        <Button variant="contained" onClick={() => navigate(ROUTES.patientProfile(patientId))}>
-          Return to patient record
-        </Button>
+        <Stack direction="row" spacing={1.5}>
+          {savedPrescription && (
+            <Button variant="outlined" onClick={() => downloadPrescriptionPdf(patient, savedPrescription)}>
+              Download prescription PDF
+            </Button>
+          )}
+          <Button variant="contained" onClick={() => navigate(ROUTES.patientProfile(patientId))}>
+            Return to patient record
+          </Button>
+        </Stack>
       </Stack>
     );
   }
@@ -169,7 +188,7 @@ export function NewConsultationPage() {
       <PatientHeader patient={patient} />
 
       <Paper variant="outlined" sx={{ p: { xs: 2, sm: 3 } }}>
-        <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 4 }}>
+        <Stepper activeStep={activeStep} alternativeLabel={!isMobile} orientation={isMobile ? 'vertical' : 'horizontal'} sx={{ mb: 4 }}>
           {STEPS.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>

@@ -6,3 +6,6 @@ dist-ssr
 *.local
 .DS_Store
 *.log
+functions/node_modules
+functions/lib
+.firebaserc
