@@ -172,6 +172,37 @@
     });
   }
 
+  // ---------------- Add new patient ----------------
+  document.getElementById("patient-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const saveBtn = document.getElementById("save-patient-btn");
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Registering…";
+    try {
+      const { patient, user: newUser } = await DB.addPatient(
+        {
+          name: document.getElementById("p-name").value,
+          dob: document.getElementById("p-dob").value,
+          gender: document.getElementById("p-gender").value,
+          phone: document.getElementById("p-phone").value,
+          place: document.getElementById("p-place").value,
+          bloodGroup: document.getElementById("p-blood").value,
+          allergies: document.getElementById("p-allergies").value.split(",").map((s) => s.trim()).filter(Boolean),
+        },
+        user
+      );
+      document.getElementById("add-patient-result").innerHTML = `<div class="banner banner-success" style="margin-top:4px;"><span class="banner-icon material-symbols-outlined icon-sm">check_circle</span><div><strong>${UI.escapeHtml(patient.name)}</strong> registered. Sign-in — username: <span class="cell-mono">${UI.escapeHtml(newUser.username)}</span>, password: <span class="cell-mono">${UI.escapeHtml(newUser.password)}</span></div></div>`;
+      document.getElementById("patient-form").reset();
+      UI.toast("Patient registered.");
+      await loadAll();
+      populateRecordPatientSelect();
+      renderPatientCards();
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Register patient";
+    }
+  });
+
   // ---------------- Add case record ----------------
   function populateRecordPatientSelect() {
     const sel = document.getElementById("r-patient");

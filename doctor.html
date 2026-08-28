@@ -26,6 +26,7 @@
       <button class="nav-item active" data-section="overview"><span class="icon material-symbols-outlined">home</span> Overview</button>
       <button class="nav-item" data-section="appointments"><span class="icon material-symbols-outlined">calendar_month</span> Appointments</button>
       <button class="nav-item" data-section="lookup"><span class="icon material-symbols-outlined">person_search</span> Patient lookup</button>
+      <button class="nav-item" data-section="newpatient"><span class="icon material-symbols-outlined">person_add</span> Add new patient</button>
       <button class="nav-item" data-section="newrecord"><span class="icon material-symbols-outlined">edit_note</span> Add case record</button>
     </nav>
 
@@ -64,6 +65,45 @@
         </div>
         <div class="grid grid-2" id="patient-cards"></div>
         <div id="patient-detail"></div>
+      </section>
+
+      <!-- ADD NEW PATIENT -->
+      <section id="section-newpatient" class="page-section" style="display:none;">
+        <div class="page-header">
+          <div><span class="eyebrow">New patient</span><h1>Register a patient</h1><p class="subtitle">Creates their shared record and a sign-in they can use from any hospital.</p></div>
+        </div>
+        <div class="card" style="max-width:640px;">
+          <form id="patient-form">
+            <div class="field"><label for="p-name">Full name</label><input type="text" id="p-name" required /></div>
+            <div class="form-row">
+              <div class="field"><label for="p-dob">Date of birth</label><input type="date" id="p-dob" required /></div>
+              <div class="field"><label for="p-gender">Gender</label>
+                <select id="p-gender" required>
+                  <option value="">Select…</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label for="p-phone">Phone</label><input type="tel" id="p-phone" /></div>
+              <div class="field"><label for="p-place">Place</label><input type="text" id="p-place" placeholder="e.g. Thrissur" required /></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label for="p-blood">Blood group</label>
+                <select id="p-blood">
+                  <option value="">Unknown</option>
+                  <option>O+</option><option>O-</option><option>A+</option><option>A-</option>
+                  <option>B+</option><option>B-</option><option>AB+</option><option>AB-</option>
+                </select>
+              </div>
+              <div class="field"><label for="p-allergies">Known allergies (comma separated)</label><input type="text" id="p-allergies" placeholder="e.g. Penicillin, Dust" /></div>
+            </div>
+            <div id="add-patient-result"></div>
+            <button type="submit" class="btn btn-filled" id="save-patient-btn">Register patient</button>
+          </form>
+        </div>
       </section>
 
       <!-- ADD CASE RECORD -->
@@ -117,6 +157,7 @@
       <button class="nav-item active" data-section="overview"><span class="icon material-symbols-outlined">home</span>Home</button>
       <button class="nav-item" data-section="appointments"><span class="icon material-symbols-outlined">calendar_month</span>Queue</button>
       <button class="nav-item" data-section="lookup"><span class="icon material-symbols-outlined">person_search</span>Lookup</button>
+      <button class="nav-item" data-section="newpatient"><span class="icon material-symbols-outlined">person_add</span>New</button>
       <button class="nav-item" data-section="newrecord"><span class="icon material-symbols-outlined">edit_note</span>Record</button>
     </div>
   </nav>

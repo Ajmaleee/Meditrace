@@ -138,6 +138,51 @@
       <tbody>${rows}</tbody></table>`;
   }
 
+  // ---------------- Add doctor ----------------
+  const addDoctorModal = document.getElementById("add-doctor-modal");
+  function openAddDoctorModal() {
+    document.getElementById("add-doctor-result").innerHTML = "";
+    addDoctorModal.style.display = "flex";
+  }
+  function closeAddDoctorModal() {
+    addDoctorModal.style.display = "none";
+    document.getElementById("add-doctor-form").reset();
+    document.getElementById("add-doctor-result").innerHTML = "";
+  }
+  document.getElementById("btn-open-add-doctor").addEventListener("click", openAddDoctorModal);
+  document.getElementById("close-add-doctor").addEventListener("click", closeAddDoctorModal);
+  document.getElementById("cancel-add-doctor").addEventListener("click", closeAddDoctorModal);
+  addDoctorModal.addEventListener("click", (e) => { if (e.target === addDoctorModal) closeAddDoctorModal(); });
+
+  document.getElementById("add-doctor-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const saveBtn = document.getElementById("save-doctor-btn");
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Adding…";
+    try {
+      const created = await DB.addDoctor(
+        {
+          name: document.getElementById("d-name").value,
+          specialty: document.getElementById("d-specialty").value,
+          hospital: document.getElementById("d-hospital").value,
+          place: document.getElementById("d-place").value,
+          username: document.getElementById("d-username").value,
+          password: document.getElementById("d-password").value,
+        },
+        user
+      );
+      document.getElementById("add-doctor-result").innerHTML = `<div class="banner banner-success" style="margin-top:4px;"><span class="banner-icon material-symbols-outlined icon-sm">check_circle</span><div><strong>${UI.escapeHtml(created.name)}</strong> added. Sign-in — username: <span class="cell-mono">${UI.escapeHtml(created.username)}</span>, password: <span class="cell-mono">${UI.escapeHtml(created.password)}</span></div></div>`;
+      document.getElementById("add-doctor-form").reset();
+      UI.toast("Doctor account created.");
+      await loadAll();
+      renderOverview();
+      renderDoctors();
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Add doctor";
+    }
+  });
+
   // ---------------- Appointments ----------------
   function renderAppointmentsTable() {
     const rows = appointments

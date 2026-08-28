@@ -60,6 +60,7 @@
       <section id="section-doctors" class="page-section" style="display:none;">
         <div class="page-header">
           <div><span class="eyebrow">Care providers</span><h1>Doctors &amp; hospitals</h1><p class="subtitle">Every account that can add or edit a medical record.</p></div>
+          <button class="btn btn-filled" id="btn-open-add-doctor"><span class="material-symbols-outlined icon-sm">person_add</span> Add doctor</button>
         </div>
         <div class="card"><div id="doctors-table"></div></div>
       </section>
@@ -102,6 +103,29 @@
       <button class="nav-item" data-section="audit"><span class="icon material-symbols-outlined">fact_check</span>Audit</button>
     </div>
   </nav>
+</div>
+
+<div class="modal-backdrop" id="add-doctor-modal" style="display:none;">
+  <div class="modal">
+    <div class="modal-header"><h3>Add a new doctor</h3><button class="modal-close" id="close-add-doctor"><span class="material-symbols-outlined icon-sm">close</span></button></div>
+    <form id="add-doctor-form">
+      <div class="field"><label for="d-name">Full name</label><input type="text" id="d-name" placeholder="e.g. Dr. Priya N" required /></div>
+      <div class="form-row">
+        <div class="field"><label for="d-specialty">Specialty</label><input type="text" id="d-specialty" placeholder="e.g. Pediatrics" required /></div>
+        <div class="field"><label for="d-hospital">Hospital</label><input type="text" id="d-hospital" required /></div>
+      </div>
+      <div class="field"><label for="d-place">Place</label><input type="text" id="d-place" placeholder="e.g. Kochi" required /></div>
+      <div class="form-row">
+        <div class="field"><label for="d-username">Username <span class="text-faint text-sm">(optional — auto-generated if left blank)</span></label><input type="text" id="d-username" /></div>
+        <div class="field"><label for="d-password">Password <span class="text-faint text-sm">(optional — defaults to Doctor@123)</span></label><input type="text" id="d-password" /></div>
+      </div>
+      <div id="add-doctor-result"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-text" id="cancel-add-doctor">Cancel</button>
+        <button type="submit" class="btn btn-filled" id="save-doctor-btn">Add doctor</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script src="js/config.js"></script>

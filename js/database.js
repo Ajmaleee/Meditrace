@@ -170,6 +170,114 @@ const DB = (() => {
   }
 
   // ---------------------------------------------------------------------
+  // Username generation — "firstname.x" from a full name, de-duplicated
+  // against whatever usernames already exist.
+  // ---------------------------------------------------------------------
+  function slugPart(s) {
+    return (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+  }
+  async function uniqueUsername(fullName) {
+    const parts = (fullName || "user").trim().split(/\s+/).filter(Boolean);
+    const first = slugPart(parts[0]) || "user";
+    const lastInitial = parts.length > 1 ? slugPart(parts[parts.length - 1])[0] || "" : "";
+    const base = lastInitial ? `${first}.${lastInitial}` : first;
+    const existing = new Set((await getUsers()).map((u) => u.username.toLowerCase()));
+    if (!existing.has(base)) return base;
+    let n = 2;
+    while (existing.has(`${base}${n}`)) n++;
+    return `${base}${n}`;
+  }
+
+  // ---------------------------------------------------------------------
+  // ADD DOCTOR — creates a `users` doc with role 'doctor'. Only an admin
+  // is expected to call this (enforced by the calling page's Auth.requireRole).
+  // Returns the created record, including the auto-generated username /
+  // password so the admin can hand them to the doctor.
+  // ---------------------------------------------------------------------
+  async function addDoctor(doctorData, actor) {
+    const username = doctorData.username && doctorData.username.trim() ? doctorData.username.trim() : await uniqueUsername(doctorData.name);
+    const password = doctorData.password && doctorData.password.trim() ? doctorData.password.trim() : "Doctor@123";
+    const record = {
+      username,
+      password,
+      role: "doctor",
+      name: doctorData.name.trim(),
+      specialty: doctorData.specialty.trim(),
+      hospital: doctorData.hospital.trim(),
+      place: doctorData.place.trim(),
+    };
+    let created;
+    if (backend === "local") {
+      const data = localReadAll();
+      created = { id: uid("usr"), ...record };
+      data.users.push(created);
+      localWriteAll(data);
+    } else {
+      created = await fsAddDoc("users", record);
+    }
+    await logEvent({
+      patientId: null,
+      actorId: actor.id,
+      actorName: actor.name,
+      actorRole: actor.role,
+      action: "create",
+      details: `Added new doctor account: ${record.name} (${record.specialty}) at ${record.hospital}`,
+    });
+    return created;
+  }
+
+  // ---------------------------------------------------------------------
+  // ADD PATIENT — creates a `patients` doc plus a linked `users` doc
+  // (role 'patient') so the patient can sign in. A doctor or admin calls
+  // this when registering someone new to the system.
+  // Returns { patient, user } — `user` carries the generated username /
+  // password so the caller can hand them to the patient.
+  // ---------------------------------------------------------------------
+  async function addPatient(patientData, actor) {
+    const patientRecord = {
+      name: patientData.name.trim(),
+      dob: patientData.dob,
+      gender: patientData.gender,
+      phone: (patientData.phone || "").trim(),
+      place: patientData.place.trim(),
+      bloodGroup: patientData.bloodGroup || "",
+      allergies: patientData.allergies || [],
+    };
+    let createdPatient;
+    if (backend === "local") {
+      const data = localReadAll();
+      createdPatient = { id: uid("pat"), ...patientRecord };
+      data.patients.push(createdPatient);
+      localWriteAll(data);
+    } else {
+      createdPatient = await fsAddDoc("patients", patientRecord);
+    }
+
+    const username = patientData.username && patientData.username.trim() ? patientData.username.trim() : await uniqueUsername(patientRecord.name);
+    const password = patientData.password && patientData.password.trim() ? patientData.password.trim() : "Patient@123";
+    const userRecord = { username, password, role: "patient", name: patientRecord.name, patientId: createdPatient.id };
+    let createdUser;
+    if (backend === "local") {
+      const data = localReadAll();
+      createdUser = { id: uid("usr"), ...userRecord };
+      data.users.push(createdUser);
+      localWriteAll(data);
+    } else {
+      createdUser = await fsAddDoc("users", userRecord);
+    }
+
+    await logEvent({
+      patientId: createdPatient.id,
+      actorId: actor.id,
+      actorName: actor.name,
+      actorRole: actor.role,
+      action: "create",
+      details: `Registered new patient: ${patientRecord.name}`,
+    });
+    return { patient: createdPatient, user: createdUser };
+  }
+
+  // ---------------------------------------------------------------------
   // PATIENTS — collection: patients
   // { id, name, dob, gender, phone, place, bloodGroup, allergies: [string] }
   // ---------------------------------------------------------------------
@@ -324,6 +432,8 @@ const DB = (() => {
     },
     getUsers,
     getUserByUsername,
+    addDoctor,
+    addPatient,
     getPatients,
     getPatient,
     updatePatientProfile,
